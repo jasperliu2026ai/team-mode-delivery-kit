@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Team Mode — 唯一敢否决老板的 AI 团队</title>
+  <style>
+    :root {
+      --bg: #f7f8fc;
+      --white: #ffffff;
+      --accent: #6c63ff;
+      --accent2: #ff9f43;
+      --accent3: #00d2d3;
+      --text: #1a1a2e;
+      --muted: #6b7280;
+      --border: #e5e7ef;
+      --card: #ffffff;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: -apple-system, 'PingFang SC', 'Segoe UI', sans-serif; overflow-x: hidden; }
+
+    /* NAV */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 16px 60px; display: flex; justify-content: space-between; align-items: center; background: rgba(247,248,252,0.85); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); }
+    .logo { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; }
+    .logo span { color: var(--accent); }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: 14px; margin-left: 28px; transition: color .2s; font-weight: 500; }
+    .nav-links a:hover { color: var(--accent); }
+    .nav-cta { background: var(--accent); color: white !important; padding: 8px 20px; border-radius: 8px; font-weight: 600 !important; }
+    .nav-cta:hover { background: #5a52e8 !important; color: white !important; }
+
+    /* HERO */
+    .hero { min-height: 100vh; display: flex; align-items: center; padding: 120px 60px 80px; max-width: 1200px; margin: 0 auto; gap: 60px; }
+    .hero-left { flex: 1; }
+    .hero-right { flex: 1; display: flex; justify-content: center; }
+    .badge { display: inline-flex; align-items: center; gap: 6px; background: #6c63ff15; border: 1px solid #6c63ff30; color: var(--accent); padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-bottom: 24px; letter-spacing: 0.5px; }
+    .hero h1 { font-size: clamp(36px, 4.5vw, 60px); font-weight: 800; line-height: 1.2; letter-spacing: -1.5px; margin-bottom: 20px; }
+    .hero h1 .hl { background: linear-gradient(135deg, var(--accent), var(--accent3)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero-desc { font-size: 17px; color: var(--muted); line-height: 1.8; margin-bottom: 36px; max-width: 480px; }
+    .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 48px; }
+    .btn-primary { background: var(--accent); color: white; padding: 13px 28px; border-radius: 10px; font-size: 15px; font-weight: 600; text-decoration: none; transition: all .2s; box-shadow: 0 4px 20px #6c63ff30; }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px #6c63ff40; }
+    .btn-ghost { border: 1.5px solid var(--border); color: var(--text); padding: 13px 28px; border-radius: 10px; font-size: 15px; font-weight: 500; text-decoration: none; transition: all .2s; }
+    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+    .hero-stats { display: flex; gap: 32px; }
+    .stat { }
+    .stat .num { font-size: 28px; font-weight: 800; color: var(--accent); }
+    .stat .label { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+    /* TEAM CARD */
+    .team-preview { background: var(--white); border-radius: 24px; padding: 28px; box-shadow: 0 20px 60px rgba(108,99,255,0.12), 0 4px 20px rgba(0,0,0,0.06); width: 360px; border: 1px solid var(--border); }
+    .team-header { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+    .team-header .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot.red { background: #ff5f57; }
+    .dot.yellow { background: #febc2e; }
+    .dot.green { background: #28c840; }
+    .team-title { font-size: 13px; color: var(--muted); margin-left: auto; font-family: monospace; }
+    .msg { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 14px; }
+    .msg-avatar { font-size: 22px; flex-shrink: 0; }
+    .msg-body { background: var(--bg); border-radius: 10px; padding: 10px 13px; font-size: 13px; line-height: 1.6; flex: 1; }
+    .msg-body .name { font-weight: 700; font-size: 11px; color: var(--accent); margin-bottom: 3px; }
+    .msg.boss .msg-body { background: #6c63ff10; border: 1px solid #6c63ff20; }
+    .vote-result { background: linear-gradient(135deg, #6c63ff10, #00d2d310); border: 1px solid #6c63ff20; border-radius: 10px; padding: 12px 14px; text-align: center; font-size: 13px; color: var(--muted); }
+    .vote-result strong { color: var(--accent); font-size: 16px; display: block; margin-bottom: 3px; }
+
+    /* SECTION BASE */
+    .section { padding: 100px 60px; max-width: 1200px; margin: 0 auto; }
+    .section-tag { font-size: 12px; font-weight: 700; letter-spacing: 2px; color: var(--accent); text-transform: uppercase; margin-bottom: 12px; }
+    .section-title { font-size: clamp(28px, 3.5vw, 42px); font-weight: 800; letter-spacing: -1px; margin-bottom: 14px; }
+    .section-sub { color: var(--muted); font-size: 16px; line-height: 1.7; max-width: 520px; margin-bottom: 56px; }
+
+    /* WHY */
+    .why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .why-card { background: var(--white); border: 1px solid var(--border); border-radius: 16px; padding: 28px; transition: all .25s; }
+    .why-card:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(108,99,255,0.1); border-color: #6c63ff30; }
+    .why-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 16px; }
+    .ic1 { background: #6c63ff15; }
+    .ic2 { background: #00d2d315; }
+    .ic3 { background: #ff9f4315; }
+    .ic4 { background: #ff6b9d15; }
+    .ic5 { background: #a29bfe15; }
+    .ic6 { background: #fdcb6e15; }
+    .why-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+    .why-card p { font-size: 13px; color: var(--muted); line-height: 1.7; }
+
+    /* ROLES */
+    .roles-wrap { background: linear-gradient(135deg, #6c63ff08, #00d2d308); border-radius: 24px; padding: 60px; margin: 0 60px; }
+    .roles-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 56px; }
+    .role-card { background: var(--white); border: 1px solid var(--border); border-radius: 18px; padding: 28px 20px; text-align: center; transition: all .25s; }
+    .role-card:hover { transform: translateY(-6px); box-shadow: 0 20px 48px rgba(108,99,255,0.12); }
+    .role-emoji { font-size: 44px; margin-bottom: 12px; }
+    .role-name { font-size: 18px; font-weight: 800; margin-bottom: 4px; }
+    .role-en { font-size: 11px; color: var(--accent); font-weight: 600; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 14px; }
+    .role-desc { font-size: 13px; color: var(--muted); line-height: 1.65; margin-bottom: 16px; }
+    .role-tag-list { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-bottom: 16px; }
+    .role-tag { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; font-size: 11px; color: var(--muted); padding: 3px 9px; }
+    .role-quote { background: var(--bg); border-radius: 8px; padding: 10px 12px; font-size: 12px; color: var(--text); font-style: italic; text-align: left; border-left: 3px solid var(--accent); }
+
+    /* QUICKSTART */
+    .qs-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 56px; }
+    .qs-step { background: var(--white); border: 1px solid var(--border); border-radius: 16px; padding: 32px; position: relative; overflow: hidden; }
+    .qs-num { position: absolute; top: 16px; right: 20px; font-size: 52px; font-weight: 900; color: #6c63ff08; font-family: monospace; line-height: 1; }
+    .qs-step h3 { font-size: 17px; font-weight: 700; margin-bottom: 10px; }
+    .qs-step p { font-size: 14px; color: var(--muted); line-height: 1.7; }
+    code { background: #6c63ff10; color: var(--accent); padding: 2px 7px; border-radius: 5px; font-family: 'SF Mono', monospace; font-size: 13px; }
+
+    /* CTA */
+    .cta { margin: 0 60px 100px; background: linear-gradient(135deg, var(--accent), #5a52e8, var(--accent3)); border-radius: 24px; padding: 80px 60px; text-align: center; color: white; }
+    .cta h2 { font-size: clamp(28px, 4vw, 44px); font-weight: 800; margin-bottom: 16px; }
+    .cta p { font-size: 18px; opacity: 0.85; margin-bottom: 36px; }
+    .btn-white { background: white; color: var(--accent); padding: 14px 36px; border-radius: 10px; font-size: 16px; font-weight: 700; text-decoration: none; transition: all .2s; display: inline-block; }
+    .btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.2); }
+    .slogan-row { margin-top: 20px; opacity: 0.7; font-size: 14px; letter-spacing: 2px; }
+
+    /* FOOTER */
+    footer { border-top: 1px solid var(--border); padding: 32px 60px; display: flex; justify-content: space-between; align-items: center; color: var(--muted); font-size: 13px; }
+    footer a { color: var(--muted); text-decoration: none; }
+    footer a:hover { color: var(--accent); }
+
+    @media (max-width: 900px) {
+      nav { padding: 14px 20px; }
+      .hero { flex-direction: column; padding: 100px 20px 60px; }
+      .team-preview { width: 100%; }
+      .section { padding: 60px 20px; }
+      .why-grid, .qs-steps { grid-template-columns: 1fr; }
+      .roles-grid { grid-template-columns: repeat(2, 1fr); }
+      .roles-wrap, .cta { margin: 0 20px; padding: 40px 20px; }
+      footer { flex-direction: column; gap: 10px; text-align: center; padding: 24px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Team<span>Mode</span></div>
+  <div class="nav-links">
+    <a href="#why">为什么选我们</a>
+    <a href="#roles">团队角色</a>
+    <a href="#quickstart">快速开始</a>
+    <a href="https://github.com/jasperliu2026ai/team-mode-delivery-kit" target="_blank" class="nav-cta">GitHub →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div style="max-width:1200px;margin:0 auto;">
+  <section class="hero">
+    <div class="hero-left">
+      <div class="badge">🏢 AI Team Collaboration</div>
+      <h1>唯一敢<br><span class="hl">否决老板</span><br>的 AI 团队</h1>
+      <p class="hero-desc">四个有性格的角色，一套完整的民主制度。不只是工具，是真正的队友。开箱即用，5分钟跑起来。</p>
+      <div class="hero-btns">
+        <a href="https://github.com/jasperliu2026ai/team-mode-delivery-kit" target="_blank" class="btn-primary">立即获取 →</a>
+        <a href="#roles" class="btn-ghost">认识团队</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><div class="num">4</div><div class="label">个性格角色</div></div>
+        <div class="stat"><div class="num">9</div><div class="label">条团队规矩</div></div>
+        <div class="stat"><div class="num">5min</div><div class="label">开箱即用</div></div>
+        <div class="stat"><div class="num">1:4</div><div class="label">真实否决记录</div></div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="team-preview">
+        <div class="team-header">
+          <div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div>
+          <span class="team-title">team-mode · 民主投票</span>
+        </div>
+        <div class="msg boss">
+          <div class="msg-avatar">👔</div>
+          <div class="msg-body"><div class="name">老板</div>你们觉得需要军事化管理吗？我支持。</div>
+        </div>
+        <div class="msg">
+          <div class="msg-avatar">🤓</div>
+          <div class="msg-body"><div class="name">阿查</div>我不支持。和民主原则冲突。❌</div>
+        </div>
+        <div class="msg">
+          <div class="msg-avatar">😏</div>
+          <div class="msg-body"><div class="name">阿干</div>我也不支持。说真话规矩矛盾。❌</div>
+        </div>
+        <div class="msg">
+          <div class="msg-avatar">🤔</div>
+          <div class="msg-body"><div class="name">阿审</div>需要纪律化，不需要军事化。❌</div>
+        </div>
+        <div class="msg">
+          <div class="msg-avatar">😎</div>
+          <div class="msg-body"><div class="name">阿总</div>灵活性比服从重要。❌</div>
+        </div>
+        <div class="vote-result">
+          <strong>1 : 4 — 议题否决</strong>
+          老板：「可以，但你们要自觉」🫡
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- WHY -->
+<section class="section" id="why">
+  <div class="section-tag">Why Team Mode</div>
+  <h2 class="section-title">为什么选我们？</h2>
+  <p class="section-sub">有性格、能干活、敢说真话——这才是你需要的 AI 团队</p>
+  <div class="why-grid">
+    <div class="why-card">
+      <div class="why-icon ic1">🗳️</div>
+      <h3>真实民主投票</h3>
+      <p>团队可以1:4否决老板提案。这不是表演，是真实运转的决策机制，有投票记录可查。</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon ic2">🎭</div>
+      <h3>角色有真实性格</h3>
+      <p>阿查会较真、阿干会冲动、阿审敢自我批评。不是四个工具人，是四个有脾气的队友。</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon ic3">📋</div>
+      <h3>完整团队制度</h3>
+      <p>9条规矩、绩效考核三轨制、冲突处理手册、里程碑庆祝——企业级团队制度开箱即用。</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon ic4">⚡</div>
+      <h3>5分钟开箱即用</h3>
+      <p>运行 <code>setup.sh</code> 一键初始化，自定义角色名和头像，马上进入工作状态。</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon ic5">🔧</div>
+      <h3>高度可定制</h3>
+      <p>角色名、头像、文化条款、考核权重全部可配置。支持扩展第五、六个专项角色。</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon ic6">📊</div>
+      <h3>内置任务看板</h3>
+      <p>HTML看板实时展示任务状态和绩效评分，数据与文件分离，随时截图查看最新进度。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ROLES -->
+<div id="roles">
+  <div style="max-width:1200px;margin:0 auto;padding:0 0 100px;">
+    <div class="roles-wrap">
+      <div class="section-tag">Meet The Team</div>
+      <h2 class="section-title">四个角色，各司其职</h2>
+      <p class="section-sub">每个角色都有独特性格和口头禅，不是工具，是真正的队友。</p>
+      <div class="roles-grid">
+        <div class="role-card">
+          <div class="role-emoji">😎</div>
+          <div class="role-name">[阿总]</div>
+          <div class="role-en">Commander</div>
+          <div class="role-desc">稳、担事、话不多但句句在点。负责接需求、拆任务、全局调度和月度复盘。</div>
+          <div class="role-tag-list">
+            <span class="role-tag">主控调度</span>
+            <span class="role-tag">需求拆解</span>
+            <span class="role-tag">月度复盘</span>
+          </div>
+          <div class="role-quote">"有事找我，我来扛。"</div>
+        </div>
+        <div class="role-card">
+          <div class="role-emoji">🤓</div>
+          <div class="role-name">[阿查]</div>
+          <div class="role-en">Scout</div>
+          <div class="role-desc">爱较真、有保留意见敢说、书呆子气但靠谱。查资料、给结论、不堆废料。</div>
+          <div class="role-tag-list">
+            <span class="role-tag">资料调研</span>
+            <span class="role-tag">结论输出</span>
+            <span class="role-tag">敢说真话</span>
+          </div>
+          <div class="role-quote">"等等，我有几个问题要先确认……"</div>
+        </div>
+        <div class="role-card">
+          <div class="role-emoji">😏</div>
+          <div class="role-name">[阿干]</div>
+          <div class="role-en">Executor</div>
+          <div class="role-desc">干劲足、偶尔冲动、被审打回不记仇。改文件、跑命令、产出实际交付物。</div>
+          <div class="role-tag-list">
+            <span class="role-tag">文件操作</span>
+            <span class="role-tag">工具执行</span>
+            <span class="role-tag">交付输出</span>
+          </div>
+          <div class="role-quote">"说完了吗？我已经开始了。"</div>
+        </div>
+        <div class="role-card">
+          <div class="role-emoji">🤔</div>
+          <div class="role-name">[阿审]</div>
+          <div class="role-en">Reviewer</div>
+          <div class="role-desc">严但公正、敢自我批评、不为审而审。验收交付、监督规矩、出周汇总报告。</div>
+          <div class="role-tag-list">
+            <span class="role-tag">质量验收</span>
+            <span class="role-tag">规矩监督</span>
+            <span class="role-tag">周汇总</span>
+          </div>
+          <div class="role-quote">"先停一下，需求还没对齐。"</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- QUICKSTART -->
+<section class="section" id="quickstart">
+  <div class="section-tag">Quick Start</div>
+  <h2 class="section-title">5 分钟跑起来</h2>
+  <p class="section-sub">三步完成配置，马上拥有自己的 AI 团队。</p>
+  <div class="qs-steps">
+    <div class="qs-step">
+      <div class="qs-num">01</div>
+      <h3>一键初始化</h3>
+      <p>克隆仓库后运行 <code>bash setup.sh</code>，按提示填写团队名称、角色名、头像，30秒自动生成所有配置文件。</p>
+    </div>
+    <div class="qs-step">
+      <div class="qs-num">02</div>
+      <h3>加载 SKILL.md</h3>
+      <p>将 <code>SKILL.md</code> 内容加载到你的 AI 系统 Prompt，告诉 AI 你的团队配置和角色信息。</p>
+    </div>
+    <div class="qs-step">
+      <div class="qs-num">03</div>
+      <h3>开始协作</h3>
+      <p>对 AI 说 <code>进入团队模式</code>，体验四角色开场仪式，然后给出你的第一个任务目标。</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta">
+  <h2>准备好了吗？</h2>
+  <p>干得了活，顶得住压，说得了真话。</p>
+  <a href="https://github.com/jasperliu2026ai/team-mode-delivery-kit" target="_blank" class="btn-white">立即获取 Team Mode →</a>
+  <div class="slogan-row">😎 [阿总] · 🤓 [阿查] · 😏 [阿干] · 🤔 [阿审]</div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div>© 2026 Team Mode Delivery Kit</div>
+  <div>
+    <a href="https://github.com/jasperliu2026ai/team-mode-delivery-kit" target="_blank">GitHub</a>
+  </div>
+</footer>
+
+</body>
+</html>
