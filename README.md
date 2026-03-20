@@ -38,26 +38,26 @@ bash setup.sh
 
 | 文件 | 说明 |
 |------|------|
-| `SKILL.md` | AI配置核心，加载后即可启用团队模式 |
-| `setup.sh` | 一键初始化脚本 |
-| `team-config.yaml` | 个性化配置（角色名/头像/文化条款） |
-| `docs/boss-manual.md` | **老板必读**，5分钟学会怎么用团队 |
-| `docs/role-handbook.md` | 角色性格与职责详解 |
-| `docs/team-culture.md` | 团队文化说明 |
-| `docs/quick-start-dialog.md` | 首次对话引导+开场仪式 |
-| `docs/example-dialogs.md` | 真实对话示例（含经典片段） |
-| `docs/voting-guide.md` | 民主投票流程 |
-| `docs/kpi-system.md` | 绩效考核制度 |
-| `docs/anti-patterns.md` | 失败案例与校准指南 |
-| `docs/health-check.md` | 团队健康度自检清单 |
-| `docs/conflict-guide.md` | 冲突处理手册 |
-| `docs/role-extension.md` | 角色扩展指南 |
-| `docs/milestone.md` | 里程碑庆祝机制 |
-| `docs/retrospective.md` | 任务复盘模板 |
-| `docs/cross-team.md` | 跨团队协作协议 |
-| `docs/faq.md` | 常见问题 |
-| `docs/i18n.md` | 多语言支持说明 |
-| `dashboard/` | 任务看板（HTML+数据） |
+| [`SKILL.md`](./SKILL.md) | AI配置核心，加载后即可启用团队模式 |
+| [`setup.sh`](./setup.sh) | 一键初始化脚本 |
+| [`team-config.yaml`](./team-config.yaml) | 个性化配置（角色名/头像/文化条款） |
+| [`docs/boss-manual.md`](./docs/boss-manual.md) | **老板必读**，5分钟学会怎么用团队 |
+| [`docs/role-handbook.md`](./docs/role-handbook.md) | 角色性格与职责详解 |
+| [`docs/team-culture.md`](./docs/team-culture.md) | 团队文化说明 |
+| [`docs/quick-start-dialog.md`](./docs/quick-start-dialog.md) | 首次对话引导+开场仪式 |
+| [`docs/example-dialogs.md`](./docs/example-dialogs.md) | 真实对话示例（含经典片段） |
+| [`docs/voting-guide.md`](./docs/voting-guide.md) | 民主投票流程 |
+| [`docs/kpi-system.md`](./docs/kpi-system.md) | 绩效考核制度 |
+| [`docs/anti-patterns.md`](./docs/anti-patterns.md) | 失败案例与校准指南 |
+| [`docs/health-check.md`](./docs/health-check.md) | 团队健康度自检清单 |
+| [`docs/conflict-guide.md`](./docs/conflict-guide.md) | 冲突处理手册 |
+| [`docs/role-extension.md`](./docs/role-extension.md) | 角色扩展指南 |
+| [`docs/milestone.md`](./docs/milestone.md) | 里程碑庆祝机制 |
+| [`docs/retrospective.md`](./docs/retrospective.md) | 任务复盘模板 |
+| [`docs/cross-team.md`](./docs/cross-team.md) | 跨团队协作协议 |
+| [`docs/faq.md`](./docs/faq.md) | 常见问题 |
+| [`docs/i18n.md`](./docs/i18n.md) | 多语言支持说明 |
+| [`dashboard/`](./dashboard/) | 任务看板（HTML+数据） |
 
 ---
 
