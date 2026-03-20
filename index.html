@@ -64,6 +64,39 @@
     .stat .label { font-size: 12px; color: var(--muted); margin-top: 2px; }
 
     /* TEAM PREVIEW CARD */
+    /* MULTI-AGENT ARCH */
+    .arch-compare { display: flex; align-items: stretch; gap: 0; max-width: 780px; margin: 48px auto 40px; border-radius: 20px; overflow: hidden; box-shadow: 0 8px 40px #6c63ff12; }
+    .arch-col { flex: 1; padding: 28px 24px; }
+    .arch-old { background: #f7f7fb; border: 1px solid #e0e0ee; }
+    .arch-new { background: linear-gradient(135deg, #6c63ff08, #00d2d308); border: 1px solid #6c63ff25; }
+    .arch-vs { display: flex; align-items: center; justify-content: center; padding: 0 12px; font-weight: 900; font-size: 18px; color: var(--muted); background: #fff; border-top: 1px solid #e0e0ee; border-bottom: 1px solid #e0e0ee; }
+    .arch-label { font-weight: 700; font-size: 15px; margin-bottom: 4px; }
+    .arch-old .arch-label { color: #999; }
+    .arch-new .arch-label { color: var(--accent); }
+    .arch-desc { font-size: 12px; color: var(--muted); margin-bottom: 16px; }
+    .arch-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+    .arch-list li { font-size: 13px; line-height: 1.5; color: var(--text); }
+    .arch-new .arch-list li::before { content: '✅ '; }
+    .arch-old .arch-list li { color: #aaa; }
+
+    /* ARCH FLOW */
+    .arch-flow { display: flex; align-items: center; gap: 20px; max-width: 860px; margin: 0 auto; justify-content: center; flex-wrap: wrap; }
+    .arch-agent { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 18px 20px; text-align: center; min-width: 100px; box-shadow: 0 4px 20px #6c63ff0a; }
+    .ag1 { border-color: #6c63ff40; background: linear-gradient(135deg,#6c63ff08,#fff); }
+    .ag2 { border-color: #00d2d330; }
+    .ag3 { border-color: #ff9f4320; }
+    .ag4 { border-color: #a29bfe30; }
+    .ag-emoji { font-size: 28px; margin-bottom: 4px; }
+    .ag-name { font-weight: 700; font-size: 14px; margin-bottom: 4px; }
+    .ag-ws, .ag-mem { font-size: 10px; color: var(--muted); background: #f3f4f8; border-radius: 4px; padding: 2px 6px; margin-top: 4px; display: inline-block; }
+    .arch-arrows { display: flex; flex-direction: column; gap: 10px; align-items: center; }
+    .arch-arrow { font-size: 12px; color: var(--accent); font-weight: 600; white-space: nowrap; }
+    .arch-agents-right { display: flex; flex-direction: column; gap: 10px; }
+    .arch-shared { background: linear-gradient(135deg,#00d2d310,#6c63ff08); border: 1px dashed #6c63ff40; border-radius: 16px; padding: 16px 24px; text-align: center; margin-top: 8px; width: 100%; max-width: 860px; }
+    .shared-icon { font-size: 24px; margin-bottom: 4px; }
+    .shared-label { font-weight: 700; font-size: 14px; color: var(--accent); }
+    .shared-desc { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
     /* CAROUSEL */
     .carousel-wrap { width: 380px; animation: fadeUp .8s .3s ease both; }
     .carousel-window { position: relative; overflow: hidden; border-radius: 24px; }
@@ -180,6 +213,7 @@
 <nav>
   <div class="logo">Team<span>Mode</span></div>
   <div class="nav-links">
+    <a href="#architecture">架构</a>
     <a href="#why">特性</a>
     <a href="#roles">团队</a>
     <a href="#quickstart">快速开始</a>
@@ -276,6 +310,55 @@
     </div>
   </section>
 </div>
+
+<div class="glow-line"></div>
+
+<!-- MULTI-AGENT ARCH -->
+<section class="section" id="architecture">
+  <div class="section-tag reveal">Architecture</div>
+  <h2 class="section-title reveal reveal-delay-1">四个独立 Agent，不是角色扮演</h2>
+  <p class="section-sub reveal reveal-delay-2">每个角色独立运行，有独立记忆，通过消息互通协作——像真实团队，而非一个AI自言自语。</p>
+
+  <div class="arch-compare reveal reveal-delay-2">
+    <div class="arch-col arch-old">
+      <div class="arch-label">❌ 普通团队模式</div>
+      <div class="arch-desc">单 Session · 角色扮演</div>
+      <ul class="arch-list">
+        <li>一个 AI 演四个角色</li>
+        <li>共用同一段记忆</li>
+        <li>串行执行，无法并行</li>
+        <li>重启后角色混乱</li>
+        <li>「互相讨论」= 自言自语</li>
+      </ul>
+    </div>
+    <div class="arch-vs">VS</div>
+    <div class="arch-col arch-new">
+      <div class="arch-label">✅ Team Mode 独立架构</div>
+      <div class="arch-desc">真正多 Agent · 独立运行</div>
+      <ul class="arch-list">
+        <li>四个独立 Agent，各自运行</li>
+        <li>每人独立 SOUL / MEMORY</li>
+        <li>真正并行，互不干扰</li>
+        <li>持久记忆，重启不丢失</li>
+        <li>agentToAgent 真实消息互通</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="arch-flow reveal reveal-delay-3">
+    <div class="arch-agent ag1"><div class="ag-emoji">😎</div><div class="ag-name">阿总</div><div class="ag-ws">独立 workspace</div><div class="ag-mem">独立 MEMORY</div></div>
+    <div class="arch-arrows">
+      <div class="arch-arrow">→ 分配任务 →</div>
+      <div class="arch-arrow">← 汇总结果 ←</div>
+    </div>
+    <div class="arch-agents-right">
+      <div class="arch-agent ag2"><div class="ag-emoji">🤓</div><div class="ag-name">阿查</div><div class="ag-ws">独立 workspace</div><div class="ag-mem">独立 MEMORY</div></div>
+      <div class="arch-agent ag3"><div class="ag-emoji">😏</div><div class="ag-name">阿干</div><div class="ag-ws">独立 workspace</div><div class="ag-mem">独立 MEMORY</div></div>
+      <div class="arch-agent ag4"><div class="ag-emoji">🤔</div><div class="ag-name">阿审</div><div class="ag-ws">独立 workspace</div><div class="ag-mem">独立 MEMORY</div></div>
+    </div>
+    <div class="arch-shared"><div class="shared-icon">📁</div><div class="shared-label">shared/ 公共目录</div><div class="shared-desc">任务看板 · 考核记录 · 团队规矩</div></div>
+  </div>
+</section>
 
 <div class="glow-line"></div>
 

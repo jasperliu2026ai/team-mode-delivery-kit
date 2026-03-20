@@ -61,6 +61,54 @@ bash setup.sh
 
 ---
 
+## 🤖 真正的多 Agent 架构
+
+本项目支持两种部署模式：**B 方案（单 session 模拟多角色）** 和 **A 方案（真正独立多 Agent）**。A 方案是生产级推荐方案。
+
+### 架构概览
+
+每个角色是一个**独立运行的 Agent**，拥有完全隔离的身份与记忆：
+
+| 角色 | 职责 | 独立文件 |
+|------|------|----------|
+| 😎 阿总 | 主控调度，下任务、做决策、兜底 | `workspace-azong/SOUL.md` · `MEMORY.md` · `USER.md` |
+| 🤓 阿查 | 情报官，调研与信息核查 | `workspace-acha/SOUL.md` · `MEMORY.md` · `USER.md` |
+| 😏 阿干 | 执行专家，写代码、建文档、交付物 | `workspace-agan/SOUL.md` · `MEMORY.md` · `USER.md` |
+| 🤔 阿审 | 质检官，审查输出、打回返工 | `workspace-ashen/SOUL.md` · `MEMORY.md` · `USER.md` |
+
+### B 方案 vs A 方案 对比
+
+| 维度 | B 方案：单 session 模拟 | A 方案：真正多 Agent |
+|------|------------------------|---------------------|
+| **运行方式** | 一个 bot，角色扮演四个角色 | 四个独立 Agent，各自运行 |
+| **记忆隔离** | ❌ 共用同一上下文 | ✅ 每人独立 MEMORY.md |
+| **并行能力** | ❌ 串行，一次只有一个角色 | ✅ 真正并行，同时运行 |
+| **上下文污染** | ❌ 角色间信息互相干扰 | ✅ 完全隔离，各自干净 |
+| **持久记忆** | ❌ 重启后角色切换混乱 | ✅ 各自 MEMORY.md 独立持久 |
+| **通信方式** | 伪通信（自问自答） | ✅ 真实消息，agentToAgent |
+| **部署复杂度** | 低（一个 bot 即可） | 中（需配置四个独立 Agent） |
+| **适用场景** | 快速原型、演示 | 生产环境、长期运行 |
+
+### shared/ 公共目录
+
+团队共享 `shared/` 目录挂载到每个 Agent 工作区，作为公共黑板：
+
+| 文件 | 用途 |
+|------|------|
+| `shared/team-tasks.md` | 任务看板，记录进行中/待办/已完成 |
+| `shared/team-performance-records.md` | 阿审的考核与打回记录 |
+| `shared/team-config.yaml` | 团队配置，所有人共享 |
+
+### 从 B 方案升级到 A 方案
+
+1. 为每个角色在 OpenClaw 注册独立 Agent（`azong` / `acha` / `agan` / `ashen`）
+2. 配置各自 workspace 路径，放入对应 `SOUL.md`
+3. 挂载 `shared/` 公共目录到四个 workspace
+4. 开启 `agentToAgent` 通信白名单
+5. 绑定四个独立 bot 账号（企业微信/Discord 等），真正四人各自响应
+
+---
+
 ## 🔥 为什么选我们？
 
 > ### 干得了活，顶得住压，说得了真话。
