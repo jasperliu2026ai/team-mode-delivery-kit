@@ -64,20 +64,27 @@
     .stat .label { font-size: 12px; color: var(--muted); margin-top: 2px; }
 
     /* TEAM PREVIEW CARD */
-    .team-preview { background: var(--card); border-radius: 24px; padding: 28px; box-shadow: 0 0 60px #6c63ff18, 0 0 120px #00d2d308; width: 360px; border: 1px solid var(--border); animation: fadeUp .8s .3s ease both; position: relative; }
-    .team-preview::before { content: ''; position: absolute; inset: -1px; border-radius: 24px; background: linear-gradient(135deg, #6c63ff40, transparent, #00d2d320); z-index: -1; }
-    .team-header { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; }
+    /* CAROUSEL */
+    .carousel-wrap { width: 380px; animation: fadeUp .8s .3s ease both; }
+    .carousel-window { position: relative; overflow: hidden; border-radius: 24px; }
+    .carousel-track { display: flex; transition: transform .6s cubic-bezier(.77,0,.175,1); }
+    .team-preview { background: var(--card); border-radius: 24px; padding: 26px; box-shadow: 0 8px 40px #6c63ff12, 0 2px 12px #0000000a; width: 380px; flex-shrink: 0; border: 1px solid var(--border); position: relative; }
+    .team-preview::before { content: ''; position: absolute; inset: -1px; border-radius: 24px; background: linear-gradient(135deg, #6c63ff25, transparent, #00d2d315); z-index: -1; pointer-events:none; }
+    .team-header { display: flex; align-items: center; gap: 8px; margin-bottom: 18px; }
     .dot { width: 10px; height: 10px; border-radius: 50%; }
     .dot.r { background: #ff5f57; } .dot.y { background: #febc2e; } .dot.g { background: #28c840; }
     .team-title { font-size: 12px; color: var(--muted); margin-left: auto; font-family: monospace; }
-    .msg { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; }
+    .msg { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
     .msg-avatar { font-size: 20px; flex-shrink: 0; }
-    .msg-body { background: #f3f4f8; border-radius: 10px; padding: 9px 12px; font-size: 13px; line-height: 1.5; flex: 1; transition: all .2s; }
-    .msg-body:hover { background: #ebebf5; }
+    .msg-body { background: #f3f4f8; border-radius: 10px; padding: 8px 12px; font-size: 13px; line-height: 1.5; flex: 1; }
     .msg-body .name { font-weight: 700; font-size: 11px; color: var(--accent); margin-bottom: 2px; }
-    .msg.boss .msg-body { background: #6c63ff12; border: 1px solid #6c63ff20; }
-    .task-done { background: linear-gradient(135deg, #6c63ff12, #00d2d310); border: 1px solid #6c63ff20; border-radius: 10px; padding: 12px 14px; text-align: center; font-size: 13px; color: var(--muted); }
-    .task-done strong { color: var(--accent2); font-size: 15px; display: block; margin-bottom: 2px; }
+    .msg.boss .msg-body { background: #6c63ff10; border: 1px solid #6c63ff20; }
+    .task-done { background: linear-gradient(135deg, #6c63ff10, #00d2d310); border: 1px solid #6c63ff20; border-radius: 10px; padding: 11px 14px; text-align: center; font-size: 13px; color: var(--muted); margin-top: 4px; }
+    .task-done strong { font-size: 14px; display: block; margin-bottom: 2px; }
+    /* dots */
+    .carousel-dots { display: flex; justify-content: center; gap: 8px; margin-top: 16px; }
+    .cdot { width: 8px; height: 8px; border-radius: 50%; background: var(--border); cursor: pointer; transition: all .3s; border: none; padding: 0; }
+    .cdot.active { background: var(--accent); width: 22px; border-radius: 4px; }
 
     /* SECTIONS */
     .section { position: relative; z-index: 1; padding: 100px 60px; max-width: 1200px; margin: 0 auto; }
@@ -205,17 +212,66 @@
       </div>
     </div>
     <div class="hero-right">
-      <div class="team-preview">
-        <div class="team-header">
-          <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
-          <span class="team-title">team-mode · 任务协作</span>
+      <div class="carousel-wrap">
+        <div class="carousel-window">
+          <div class="carousel-track" id="carouselTrack">
+
+            <!-- 场景1：会议纪要 -->
+            <div class="team-preview">
+              <div class="team-header"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div><span class="team-title">场景一 · 会议纪要</span></div>
+              <div class="msg boss"><div class="msg-avatar">👔</div><div class="msg-body"><div class="name">老板</div>整理今天的会议，输出行动项。</div></div>
+              <div class="msg"><div class="msg-avatar">😎</div><div class="msg-body"><div class="name">阿总</div>阿查梳理要点，阿干输出文档。</div></div>
+              <div class="msg"><div class="msg-avatar">🤓</div><div class="msg-body"><div class="name">阿查</div>梳理完了：3个决策点，5条行动项，负责人时间全标好。</div></div>
+              <div class="msg"><div class="msg-avatar">😏</div><div class="msg-body"><div class="name">阿干</div>文档已生成 ✅</div></div>
+              <div class="msg"><div class="msg-avatar">🤔</div><div class="msg-body"><div class="name">阿审</div>核查通过，可交付 ✅</div></div>
+              <div class="task-done"><strong>🎉 任务完成</strong>全程 &lt; 3 分钟，零返工</div>
+            </div>
+
+            <!-- 场景2：PRD撰写 -->
+            <div class="team-preview">
+              <div class="team-header"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div><span class="team-title">场景二 · PRD 撰写</span></div>
+              <div class="msg boss"><div class="msg-avatar">👔</div><div class="msg-body"><div class="name">老板</div>帮我写用户登录模块的 PRD。</div></div>
+              <div class="msg"><div class="msg-avatar">🤓</div><div class="msg-body"><div class="name">阿查</div>先确认：目标用户？支持第三方登录吗？</div></div>
+              <div class="msg boss"><div class="msg-avatar">👔</div><div class="msg-body"><div class="name">老板</div>To C用户，支持微信登录。</div></div>
+              <div class="msg"><div class="msg-avatar">😏</div><div class="msg-body"><div class="name">阿干</div>PRD 已起草：背景/目标/用户流程/异常处理/验收标准，共6节 ✅</div></div>
+              <div class="msg"><div class="msg-avatar">🤔</div><div class="msg-body"><div class="name">阿审</div>已审：安全性章节待补充，其余可用 ⚠️</div></div>
+              <div class="task-done"><strong>📋 PRD v1 交付</strong>阿查已标注待补充项</div>
+            </div>
+
+            <!-- 场景3：Bug排查 -->
+            <div class="team-preview">
+              <div class="team-header"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div><span class="team-title">场景三 · Bug 排查</span></div>
+              <div class="msg boss"><div class="msg-avatar">👔</div><div class="msg-body"><div class="name">老板</div>线上支付失败，用户投诉了，赶紧查。</div></div>
+              <div class="msg"><div class="msg-avatar">😎</div><div class="msg-body"><div class="name">阿总</div>高优！阿查查日志，阿干准备回滚方案。</div></div>
+              <div class="msg"><div class="msg-avatar">🤓</div><div class="msg-body"><div class="name">阿查</div>找到了：17:32 支付接口超时，第三方网关问题，非我方代码。</div></div>
+              <div class="msg"><div class="msg-avatar">😏</div><div class="msg-body"><div class="name">老板</div>降级方案已就位，可随时切换 ✅</div></div>
+              <div class="task-done"><strong>🔧 根因定位完成</strong>外部网关问题，降级方案已备</div>
+            </div>
+
+            <!-- 场景4：周报生成 -->
+            <div class="team-preview">
+              <div class="team-header"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div><span class="team-title">场景四 · 周报生成</span></div>
+              <div class="msg boss"><div class="msg-avatar">👔</div><div class="msg-body"><div class="name">老板</div>帮我生成本周周报，发给大老板的那种。</div></div>
+              <div class="msg"><div class="msg-avatar">🤓</div><div class="msg-body"><div class="name">阿查</div>整理本周完成项：登录模块上线、支付问题修复、PRD评审通过。</div></div>
+              <div class="msg"><div class="msg-avatar">😏</div><div class="msg-body"><div class="name">阿干</div>周报已生成，亮点/问题/下周计划三段式，附数据 ✅</div></div>
+              <div class="msg"><div class="msg-avatar">🤔</div><div class="msg-body"><div class="name">阿审</div>语气偏技术，建议换成管理视角重述两处 📝</div></div>
+              <div class="task-done"><strong>📊 周报 v2 就绪</strong>阿审已优化管理视角表达</div>
+            </div>
+
+            <!-- 场景5：民主投票 -->
+            <div class="team-preview">
+              <div class="team-header"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div><span class="team-title">场景五 · 团队投票</span></div>
+              <div class="msg boss"><div class="msg-avatar">👔</div><div class="msg-body"><div class="name">老板</div>这个需求优先级提到P0，你们觉得呢？</div></div>
+              <div class="msg"><div class="msg-avatar">🤓</div><div class="msg-body"><div class="name">阿查</div>影响面只有5%用户，建议P1，P0资源不够用。</div></div>
+              <div class="msg"><div class="msg-avatar">😏</div><div class="msg-body"><div class="name">阿干</div>同意阿查，当前Sprint已满，塞P0会崩。</div></div>
+              <div class="msg"><div class="msg-avatar">🤔</div><div class="msg-body"><div class="name">阿审</div>建议P1+下Sprint首位，可以接受。</div></div>
+              <div class="msg"><div class="msg-avatar">😎</div><div class="msg-body"><div class="name">阿总</div>投票结果：P1，下Sprint优先。老板您看？</div></div>
+              <div class="task-done"><strong>🗳️ 投票结果：P1</strong>团队意见一致，等老板拍板</div>
+            </div>
+
+          </div>
         </div>
-        <div class="msg boss"><div class="msg-avatar">👔</div><div class="msg-body"><div class="name">老板</div>帮我整理今天会议内容，输出行动项。</div></div>
-        <div class="msg"><div class="msg-avatar">😎</div><div class="msg-body"><div class="name">阿总</div>收到，阿查梳理要点，阿干负责输出文档。</div></div>
-        <div class="msg"><div class="msg-avatar">🤓</div><div class="msg-body"><div class="name">阿查</div>整理完了，3个决策点，5条行动项，负责人和时间都标好了。</div></div>
-        <div class="msg"><div class="msg-avatar">😏</div><div class="msg-body"><div class="name">阿干</div>文档已生成，发你 ✅</div></div>
-        <div class="msg"><div class="msg-avatar">🤔</div><div class="msg-body"><div class="name">阿审</div>核查完毕，行动项齐全，可交付 ✅</div></div>
-        <div class="task-done"><strong>任务完成 🎉</strong>全程 &lt; 3 分钟，零返工</div>
+        <div class="carousel-dots" id="carouselDots"></div>
       </div>
     </div>
   </section>
@@ -359,7 +415,47 @@ const observer = new IntersectionObserver(entries => {
 }, { threshold: 0.15 });
 reveals.forEach(el => observer.observe(el));
 
-// D. 3D 卡片悬浮
+// CAROUSEL 自动轮播
+(function(){
+  const track = document.getElementById('carouselTrack');
+  const dotsWrap = document.getElementById('carouselDots');
+  if (!track) return;
+  const cards = track.querySelectorAll('.team-preview');
+  const total = cards.length;
+  let cur = 0, timer;
+
+  // 生成 dots
+  for (let i = 0; i < total; i++) {
+    const b = document.createElement('button');
+    b.className = 'cdot' + (i===0?' active':'');
+    b.onclick = () => goTo(i);
+    dotsWrap.appendChild(b);
+  }
+
+  function goTo(n) {
+    cur = (n + total) % total;
+    track.style.transform = `translateX(-${cur * 380}px)`;
+    dotsWrap.querySelectorAll('.cdot').forEach((d,i) => d.classList.toggle('active', i===cur));
+    resetTimer();
+  }
+
+  function resetTimer() {
+    clearInterval(timer);
+    timer = setInterval(() => goTo(cur + 1), 3500);
+  }
+
+  // 触摸滑动支持
+  let tx = 0;
+  track.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, {passive:true});
+  track.addEventListener('touchend', e => {
+    const diff = tx - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) goTo(cur + (diff > 0 ? 1 : -1));
+  }, {passive:true});
+
+  resetTimer();
+})();
+
+
 document.querySelectorAll('.why-card, .role-card, .qs-step').forEach(card => {
   card.addEventListener('mousemove', e => {
     const r = card.getBoundingClientRect();
