@@ -316,34 +316,8 @@
 <!-- MULTI-AGENT ARCH -->
 <section class="section" id="architecture">
   <div class="section-tag reveal">Architecture</div>
-  <h2 class="section-title reveal reveal-delay-1">四个独立 Agent，不是角色扮演</h2>
-  <p class="section-sub reveal reveal-delay-2">每个角色独立运行，有独立记忆，通过消息互通协作——像真实团队，而非一个AI自言自语。</p>
-
-  <div class="arch-compare reveal reveal-delay-2">
-    <div class="arch-col arch-old">
-      <div class="arch-label">❌ 普通团队模式</div>
-      <div class="arch-desc">单 Session · 角色扮演</div>
-      <ul class="arch-list">
-        <li>一个 AI 演四个角色</li>
-        <li>共用同一段记忆</li>
-        <li>串行执行，无法并行</li>
-        <li>重启后角色混乱</li>
-        <li>「互相讨论」= 自言自语</li>
-      </ul>
-    </div>
-    <div class="arch-vs">VS</div>
-    <div class="arch-col arch-new">
-      <div class="arch-label">✅ Team Mode 独立架构</div>
-      <div class="arch-desc">真正多 Agent · 独立运行</div>
-      <ul class="arch-list">
-        <li>四个独立 Agent，各自运行</li>
-        <li>每人独立 SOUL / MEMORY</li>
-        <li>真正并行，互不干扰</li>
-        <li>持久记忆，重启不丢失</li>
-        <li>agentToAgent 真实消息互通</li>
-      </ul>
-    </div>
-  </div>
+  <h2 class="section-title reveal reveal-delay-1">真正独立多 Agent，各有记忆</h2>
+  <p class="section-sub reveal reveal-delay-2">每个角色独立运行，有独立 SOUL 与 MEMORY，通过 agentToAgent 消息真实互通——是真正的团队，不是角色扮演。</p>
 
   <div class="arch-flow reveal reveal-delay-3">
     <div class="arch-agent ag1"><div class="ag-emoji">😎</div><div class="ag-name">阿总</div><div class="ag-ws">独立 workspace</div><div class="ag-mem">独立 MEMORY</div></div>
@@ -400,11 +374,11 @@
 <section class="section" id="quickstart">
   <div class="section-tag reveal">Quick Start</div>
   <h2 class="section-title reveal reveal-delay-1">5 分钟跑起来</h2>
-  <p class="section-sub reveal reveal-delay-2">三步完成配置，马上拥有自己的 AI 团队。</p>
+  <p class="section-sub reveal reveal-delay-2">三步完成配置，马上拥有真正独立运行的 AI 团队。</p>
   <div class="qs-steps">
-    <div class="qs-step reveal reveal-delay-1"><div class="qs-num">01</div><h3>一键初始化</h3><p>克隆仓库后运行 <code>bash setup.sh</code>，按提示填写团队名称、角色名、头像，30秒自动生成所有配置文件。</p></div>
-    <div class="qs-step reveal reveal-delay-2"><div class="qs-num">02</div><h3>加载 SKILL.md</h3><p>将 <code>SKILL.md</code> 内容加载到你的 AI System Prompt，告诉 AI 你的团队配置和角色信息。</p></div>
-    <div class="qs-step reveal reveal-delay-3"><div class="qs-num">03</div><h3>开始协作</h3><p>对 AI 说 <code>进入团队模式</code>，体验四角色开场仪式，然后给出你的第一个任务目标。</p></div>
+    <div class="qs-step reveal reveal-delay-1"><div class="qs-num">01</div><h3>注册独立 Agent</h3><p>在 OpenClaw 中为阿总/阿查/阿干/阿审各自注册独立 Agent，配置各自 workspace 和 <code>SOUL.md</code>，并开启 <code>agentToAgent</code> 通信白名单。</p></div>
+    <div class="qs-step reveal reveal-delay-2"><div class="qs-num">02</div><h3>配置 openclaw.json</h3><p>编辑配置文件，添加四个 Agent 定义和 <code>agentToAgent</code> 权限，挂载 <code>shared/</code> 公共目录，重启 OpenClaw 验证多 Agent 在线。</p></div>
+    <div class="qs-step reveal reveal-delay-3"><div class="qs-num">03</div><h3>开始协作</h3><p>对主 Agent 说 <code>进入团队模式</code>，四个独立 Agent 各自响应，体验真正的多角色协作，然后给出你的第一个任务目标。</p></div>
   </div>
 </section>
 
