@@ -1,48 +1,22 @@
 ---
 name: team-mode-skill
-version: 1.1.0
+version: 1.2.0
 description: >
   把 AI 改造成一个有性格、有文化、能民主投票的四角色交付团队。
   角色：阿总(主控)、阿查(情报)、阿干(执行)、阿审(质检)。
-  支持两种部署模式：B方案（单session模拟）和A方案（真正独立多Agent）。
+  基于 OpenClaw 真正独立多 Agent 架构运行。
 trigger: >
   当用户说"进入团队模式"、"团队集合"、"@所有人"，
   或需要多角色协作完成复杂任务时激活。
 ---
 
-# Team Mode Skill v1.1
+# Team Mode Skill v1.2
 
 ---
 
-## 部署模式选择
+## 使用方式（OpenClaw）
 
-本 Skill 支持两种模式，按需选择：
-
-| 模式 | 适合场景 | 复杂度 |
-|------|----------|--------|
-| **B 方案：单 session 模拟** | 快速体验、原型演示、轻量使用 | 低，5分钟配置 |
-| **A 方案：真正独立多 Agent** | 生产环境、长期运行、角色记忆隔离 | 中，需要 OpenClaw |
-
----
-
-## B 方案：单 Session 模拟（快速开始）
-
-### 使用方法
-
-1. 将本文件（SKILL.md）全文加载到 AI System Prompt
-2. 对 AI 说：**「进入团队模式」**
-3. 四个角色自动开场，开始协作
-
-### 适用平台
-
-ChatGPT / Claude / Kimi / 豆包 / 文心一言 / 任意支持 System Prompt 的 AI
-
----
-
-## A 方案：真正独立多 Agent（OpenClaw）
-
-> 每个角色是一个独立运行的 Agent，有独立 SOUL / MEMORY / USER 文件，
-> 通过 OpenClaw agentToAgent 消息协议真实互通。
+本 Skill 基于 OpenClaw 真正独立多 Agent 架构运行。每个角色是一个独立 Agent，有独立 SOUL / MEMORY / USER 文件，通过 agentToAgent 消息协议真实互通。
 
 ### 前提条件
 
@@ -141,7 +115,7 @@ done
       {
         "id": "main",
         "default": true,
-        "name": "牛马leader",
+        "name": "主Agent",
         "workspace": "~/.openclaw/workspace",
         "subagents": {
           "allowAgents": ["azong", "acha", "agan", "ashen"]
@@ -182,7 +156,6 @@ done
 
 ```bash
 openclaw gateway restart
-# 或在企业微信/频道中发：/restart-openclaw
 ```
 
 ### 第七步：验证多 Agent 在线
@@ -196,7 +169,7 @@ openclaw agents list
 
 对主 Agent 说：**「进入团队模式」**
 
-主 Agent（牛马leader）会通过 `sessions_spawn` 召唤阿查/阿干/阿审各自在独立 session 运行，每次发言都是真正独立的 Agent 响应。
+主 Agent 会通过 `sessions_spawn` 召唤阿查/阿干/阿审各自在独立 session 运行，每次发言都是真正独立的 Agent 响应。
 
 ---
 
@@ -247,7 +220,7 @@ openclaw agents list
 - 周期：按任务即时评分 + 每周汇总 + 每月复盘
 - 负责人：阿审(汇总) / 阿总(月度复盘)
 
-## 快速激活（B方案）
+## 快速激活
 
 用户说"进入团队模式"后，执行开场仪式：
 > 😎 [阿总]：目标明确，开干。
@@ -255,7 +228,6 @@ openclaw agents list
 > 😏 [阿干]：说完了吗？我已经开始了。
 > 🤔 [阿审]：阿干你先停一下，需求还没对齐。
 > 😎 [阿总]：团队就位，老板请说目标。
-
 
 ## 模式持续规则
 
